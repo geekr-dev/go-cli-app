@@ -7,9 +7,19 @@ import (
 
 func main() {
 	var name string
-	flag.StringVar(&name, "name", "Go语言编程之旅", "帮助信息")
-	flag.StringVar(&name, "n", "Go语言编程之旅", "帮助信息")
 	flag.Parse()
+	goCmd := flag.NewFlagSet("go", flag.ExitOnError)
+	goCmd.StringVar(&name, "name", "Go语言编程之旅", "帮助信息")
+	phpCmd := flag.NewFlagSet("php", flag.ExitOnError)
+	phpCmd.StringVar(&name, "n", "PHP语言编程之旅", "帮助信息")
+
+	args := flag.Args()
+	switch args[0] {
+	case "go":
+		_ = goCmd.Parse(args[1:])
+	case "php":
+		_ = phpCmd.Parse(args[1:])
+	}
 
 	log.Printf("name: %s", name)
 }
